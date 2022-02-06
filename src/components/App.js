@@ -11,6 +11,7 @@ import AddPlacePopup from "./AddPlacePopup";
 import {FormsFetchingContext, formsButtonTexts} from "../contexts/FormsFetchingContext";
 import ConfirmPopup from "./ConfirmPopup";
 import {Switch, Route} from "react-router-dom";
+import Login from "./Login";
 
 function App() {
 
@@ -130,13 +131,14 @@ function App() {
                         FOR registration
                     </Route>
                     <Route path="/sign-in">
-                        FOR authorization
+                        <Login />
                     </Route>
                     <Route exact path="/">
                         main-content
                     </Route>
                 </Switch>
-                <Main
+
+                {/*<Main  !turned off until auth's comp ready! ----------------------------
                     onEditProfile={handleEditProfileClick}
                     onAddPlace={handleAddPlaceClick}
                     onEditAvatar={handleEditAvatarClick}
@@ -144,7 +146,8 @@ function App() {
                     onCardClick={handleCardImageClick}
                     onCardLike={handleCardLike}
                     onCardDelete={handleRemoveCardClick}
-                />
+                />*/}
+
                 <Footer/>
                 <FormsFetchingContext.Provider value={formsButtonTexts[buttonFormText]}>
                     <EditProfilePopup

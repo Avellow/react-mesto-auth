@@ -30,6 +30,12 @@
 @import url(./blocks/place/__like-button/_active/place__like-button_active.css);
 @import url(./blocks/place/__like-counter/place__like-counter.css);
 
+@import url(./blocks/sign-form/sign-form.css);
+@import url(./blocks/sign-form/__input/sign-form__input.css);
+@import url(./blocks/sign-form/__submit/sign-form__submit.css);
+@import url(./blocks/sign-form/__subtitle/sign-form__subtitle.css);
+@import url(./blocks/sign-form/__title/sign-form__title.css);
+
 @import url(./blocks/footer/footer.css);
 @import url(./blocks/footer/__author/footer__author.css);
 
