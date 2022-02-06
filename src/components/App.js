@@ -12,6 +12,7 @@ import {FormsFetchingContext, formsButtonTexts} from "../contexts/FormsFetchingC
 import ConfirmPopup from "./ConfirmPopup";
 import {Switch, Route} from "react-router-dom";
 import Register from "./Register";
+import Login from "./Login";
 
 function App() {
 
@@ -127,10 +128,10 @@ function App() {
             <CurrentUserContext.Provider value={currentUser}>
                 <Header/>
                 <Switch>
-                    <Route path="/sign-up">
-                        FOR registration
-                    </Route>
                     <Route path="/sign-in">
+                        <Login />
+                    </Route>
+                    <Route path="/sign-up">
                         <Register />
                     </Route>
                     <Route exact path="/">
