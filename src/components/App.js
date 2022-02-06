@@ -10,6 +10,7 @@ import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
 import {FormsFetchingContext, formsButtonTexts} from "../contexts/FormsFetchingContext";
 import ConfirmPopup from "./ConfirmPopup";
+import {Switch, Route} from "react-router-dom";
 
 function App() {
 
@@ -124,6 +125,17 @@ function App() {
         <div className="root">
             <CurrentUserContext.Provider value={currentUser}>
                 <Header/>
+                <Switch>
+                    <Route path="/sign-up">
+                        FOR registration
+                    </Route>
+                    <Route path="/sign-in">
+                        FOR authorization
+                    </Route>
+                    <Route exact path="/">
+                        main-content
+                    </Route>
+                </Switch>
                 <Main
                     onEditProfile={handleEditProfileClick}
                     onAddPlace={handleAddPlaceClick}
