@@ -11,7 +11,7 @@ import AddPlacePopup from "./AddPlacePopup";
 import {FormsFetchingContext, formsButtonTexts} from "../contexts/FormsFetchingContext";
 import ConfirmPopup from "./ConfirmPopup";
 import {Switch, Route} from "react-router-dom";
-import Login from "./Login";
+import Register from "./Register";
 
 function App() {
 
@@ -131,7 +131,7 @@ function App() {
                         FOR registration
                     </Route>
                     <Route path="/sign-in">
-                        <Login />
+                        <Register />
                     </Route>
                     <Route exact path="/">
                         main-content
