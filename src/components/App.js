@@ -26,7 +26,7 @@ function App() {
     const [selectedCard, setSelectedCard] = useState({});
     const [cards, setCards] = useState([]);
     const [isFetching, setIsFetching] = useState(false);
-    const [loggedIn, setLoggedIn] = useState(true);
+    const [loggedIn, setLoggedIn] = useState(false);
     const location = useLocation();
 
     const buttonFormText = isFetching ? 'fetchingText' : 'defaultText';
@@ -174,16 +174,6 @@ function App() {
                         onCardDelete={handleRemoveCardClick}
                     />
                 </Switch>
-
-                {/*<Main  !turned off until auth's comp ready! ----------------------------
-                    onEditProfile={handleEditProfileClick}
-                    onAddPlace={handleAddPlaceClick}
-                    onEditAvatar={handleEditAvatarClick}
-                    cards={cards}
-                    onCardClick={handleCardImageClick}
-                    onCardLike={handleCardLike}
-                    onCardDelete={handleRemoveCardClick}
-                />*/}
 
                 <Footer/>
                 <FormsFetchingContext.Provider value={formsButtonTexts[buttonFormText]}>

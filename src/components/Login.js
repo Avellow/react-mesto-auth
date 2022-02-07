@@ -3,7 +3,7 @@
 function Login(props) {
 
     return (
-        <div className="sign-form">
+        <form className="sign-form">
             <h2 className="sign-form__title">Вход</h2>
             <input
                 className="sign-form__input"
@@ -14,7 +14,7 @@ function Login(props) {
                 placeholder="Пароль"
             />
             <button className="sign-form__submit">Войти</button>
-        </div>
+        </form>
     )
 }
 

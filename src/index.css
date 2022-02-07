@@ -37,6 +37,7 @@
 @import url(./blocks/sign-form/__submit/sign-form__submit.css);
 @import url(./blocks/sign-form/__subtitle/sign-form__subtitle.css);
 @import url(./blocks/sign-form/__title/sign-form__title.css);
+@import url(./blocks/sign-form/__link/sign-form__link.css);
 
 @import url(./blocks/footer/footer.css);
 @import url(./blocks/footer/__author/footer__author.css);
