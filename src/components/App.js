@@ -15,6 +15,7 @@ import Register from "./Register";
 import Login from "./Login";
 import ProtectedRoute from "./ProtectedRoute";
 import InfoTooltip from "./InfoTooltip";
+import * as auth from './../utils/auth'
 
 function App() {
 
@@ -147,6 +148,24 @@ function App() {
     }
     const signActionLink = formSignActionLink();
 
+
+    //хендлеры регистрации и авторизации
+    const [registrationSuccess, setRegistrationSuccess] = useState(false)
+
+    function handleRegister(email, password) {
+        auth.register(email, password)
+            .then(data => {
+                setRegistrationSuccess(true);
+                setIsTooltipOpen(true);
+            })
+            .catch(err => {
+                console.log(`${err} - некорректно заполнено одно из полей`);
+                setRegistrationSuccess(false);
+                setIsTooltipOpen(true);
+            })
+    }
+
+
     return (
         <div className="root">
             <CurrentUserContext.Provider value={currentUser}>
@@ -163,7 +182,9 @@ function App() {
                         <Login />
                     </Route>
                     <Route path="/sign-up">
-                        <Register />
+                        <Register
+                            onSubmit={handleRegister}
+                        />
                     </Route>
                     <ProtectedRoute
                         exact path='/'
@@ -214,7 +235,7 @@ function App() {
                     isOpen={isTooltipOpen}
                     name={'tooltip'}
                     onClose={closeAllPopups}
-                    success={true}
+                    success={registrationSuccess}
                 />
             </CurrentUserContext.Provider>
 
