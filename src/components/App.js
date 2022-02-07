@@ -14,6 +14,7 @@ import {Switch, Route, useLocation, Link, Redirect} from "react-router-dom";
 import Register from "./Register";
 import Login from "./Login";
 import ProtectedRoute from "./ProtectedRoute";
+import InfoTooltip from "./InfoTooltip";
 
 function App() {
 
@@ -21,12 +22,14 @@ function App() {
     const [isOpenedEditProfilePopup, setIsOpenedEditProfilePopup] = useState(false);
     const [isOpenedEditAvatarPopup, setIsOpenedEditAvatarPopup] = useState(false);
     const [isOpenedConfirmPopup, setIsOpenedConfirmPopup] = useState(false);
-    const [isOpenedImagePopup, setIsOpenedImagePopup] = useState(false)
+    const [isOpenedImagePopup, setIsOpenedImagePopup] = useState(false);
+    const [isTooltipOpen, setIsTooltipOpen] = useState(false);
     const [currentUser, setCurrentUser] = useState({});
     const [selectedCard, setSelectedCard] = useState({});
     const [cards, setCards] = useState([]);
     const [isFetching, setIsFetching] = useState(false);
     const [loggedIn, setLoggedIn] = useState(false);
+
     const location = useLocation();
 
     const buttonFormText = isFetching ? 'fetchingText' : 'defaultText';
@@ -122,7 +125,8 @@ function App() {
         setIsOpenedEditProfilePopup(false);
         setIsOpenedEditAvatarPopup(false);
         setIsOpenedConfirmPopup(false);
-        setIsOpenedImagePopup(false)
+        setIsOpenedImagePopup(false);
+        setIsTooltipOpen(false);
         setSelectedCard({});
     }
 
@@ -204,6 +208,13 @@ function App() {
                     card={selectedCard}
                     isOpen={isOpenedImagePopup}
                     onClose={closeAllPopups}
+                />
+
+                <InfoTooltip
+                    isOpen={isTooltipOpen}
+                    name={'tooltip'}
+                    onClose={closeAllPopups}
+                    success={true}
                 />
             </CurrentUserContext.Provider>
 

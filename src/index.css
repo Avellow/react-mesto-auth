@@ -63,3 +63,7 @@
 @import url(./blocks/form/__input-error/__input-error_active/form__input-error_active.css);
 @import url(./blocks/form/__submit/_inactive/form__submit_inactive.css);
 @import url(./blocks/form/__text/form__text.css);
+
+@import url(./blocks/sign-up-status/sign-up-status.css);
+@import url(./blocks/sign-up-status/__icon/sign-up-status__icon.css);
+@import url(./blocks/sign-up-status/__subtitle/sign-up-status__subtitle.css);
