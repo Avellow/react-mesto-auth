@@ -10,7 +10,7 @@ import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
 import {FormsFetchingContext, formsButtonTexts} from "../contexts/FormsFetchingContext";
 import ConfirmPopup from "./ConfirmPopup";
-import {Switch, Route} from "react-router-dom";
+import {Switch, Route, useLocation, Link} from "react-router-dom";
 import Register from "./Register";
 import Login from "./Login";
 
@@ -25,6 +25,8 @@ function App() {
     const [selectedCard, setSelectedCard] = useState({});
     const [cards, setCards] = useState([]);
     const [isFetching, setIsFetching] = useState(false);
+    const [loggedIn, setLoggedIn] = useState(false);
+    const location = useLocation();
 
     const buttonFormText = isFetching ? 'fetchingText' : 'defaultText';
     const { _id: userId } = currentUser;
@@ -123,10 +125,34 @@ function App() {
         setSelectedCard({});
     }
 
+
+    //формироует объект с описанием текущей ссылки в хедере в зависимости от состояния
+    //возможно в будущем это вообще часть хендлера, тк клик по Выйти должен менять состояние loggedIn
+    function formSignActionLink() {
+        switch (location.pathname) {
+            case '/sign-in':
+                return {to: '/sign-up', text: 'Регистрация'};
+            case '/sign-up':
+                return {to: '/sign-in', text: 'Войти'};
+            default:
+                return loggedIn
+                    ? {to: '/sign-in', text: 'Выйти'}
+                    : {to: '/sign-up', text: 'Регистрация'};
+        }
+    }
+    const signActionLink = formSignActionLink();
+
     return (
         <div className="root">
             <CurrentUserContext.Provider value={currentUser}>
-                <Header/>
+                <Header
+
+                    linkText={'Войти'}
+                    link={'/sign-in'}
+                    loggedIn={loggedIn}
+                >
+                    <Link className='sign-link' to={signActionLink.to}>{signActionLink.text}</Link>
+                </Header>
                 <Switch>
                     <Route path="/sign-in">
                         <Login />

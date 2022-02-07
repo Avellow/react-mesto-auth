@@ -2,7 +2,6 @@
 
 function Login(props) {
 
-
     return (
         <div className="sign-form">
             <h2 className="sign-form__title">Вход</h2>
