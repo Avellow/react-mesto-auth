@@ -10,9 +10,10 @@ import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
 import {FormsFetchingContext, formsButtonTexts} from "../contexts/FormsFetchingContext";
 import ConfirmPopup from "./ConfirmPopup";
-import {Switch, Route, useLocation, Link} from "react-router-dom";
+import {Switch, Route, useLocation, Link, Redirect} from "react-router-dom";
 import Register from "./Register";
 import Login from "./Login";
+import ProtectedRoute from "./ProtectedRoute";
 
 function App() {
 
@@ -25,7 +26,7 @@ function App() {
     const [selectedCard, setSelectedCard] = useState({});
     const [cards, setCards] = useState([]);
     const [isFetching, setIsFetching] = useState(false);
-    const [loggedIn, setLoggedIn] = useState(false);
+    const [loggedIn, setLoggedIn] = useState(true);
     const location = useLocation();
 
     const buttonFormText = isFetching ? 'fetchingText' : 'defaultText';
@@ -160,9 +161,18 @@ function App() {
                     <Route path="/sign-up">
                         <Register />
                     </Route>
-                    <Route exact path="/">
-                        main-content
-                    </Route>
+                    <ProtectedRoute
+                        exact path='/'
+                        loggedIn={loggedIn}
+                        component={Main}
+                        onEditProfile={handleEditProfileClick}
+                        onAddPlace={handleAddPlaceClick}
+                        onEditAvatar={handleEditAvatarClick}
+                        cards={cards}
+                        onCardClick={handleCardImageClick}
+                        onCardLike={handleCardLike}
+                        onCardDelete={handleRemoveCardClick}
+                    />
                 </Switch>
 
                 {/*<Main  !turned off until auth's comp ready! ----------------------------
