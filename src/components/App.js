@@ -37,21 +37,20 @@ function App() {
     const { _id: userId } = currentUser;
 
     useEffect(() => {
-        Promise.all([api.getUserInfo(), api.getInitialCards()])
-            .then(([user, cards]) => {
-                setCurrentUser(prevValue => ({...prevValue, ...user}));
-                setCards(cards);
-            })
-            .catch(err => console.log(`${err} не удалось получить данные с сервера`));
-    }, []);
-
-    useEffect(() => {
         handleTokenCheck();
-    }, [loggedIn])
+        if (loggedIn) {
+            Promise.all([api.getUserInfo(), api.getInitialCards()])
+                .then(([user, cards]) => {
+                    setCurrentUser(prevValue => ({...prevValue, ...user}));
+                    setCards(cards);
+                })
+                .catch(err => console.log(`${err} не удалось получить данные с сервера`));
+        }
+    }, [loggedIn]);
 
     function handleTokenCheck() {
         if (localStorage.getItem('jwt')) {
-            const jwt = localStorage.getItem('jwt')
+            const jwt = localStorage.getItem('jwt');
             auth.checkToken(jwt)
                 .then(({data}) => {
                     setCurrentUser(prevValue => ({...prevValue, email: data.email}));
@@ -149,7 +148,6 @@ function App() {
 
 
     //формироует объект с описанием текущей ссылки в хедере в зависимости от состояния
-    //возможно в будущем это вообще часть хендлера, тк клик по Выйти должен менять состояние loggedIn
     function formSignActionLink() {
         switch (location.pathname) {
             case '/sign-in':
