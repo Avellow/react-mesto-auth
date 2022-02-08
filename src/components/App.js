@@ -18,7 +18,7 @@ import InfoTooltip from "./InfoTooltip";
 import * as auth from './../utils/auth'
 
 function App() {
-
+    //надо подумать: может вообще привязать отображение некоторых компонентов на isFetching
     const [isOpenedAddPlacePopup, setIsOpenedAddPlacePopup] = useState(false);
     const [isOpenedEditProfilePopup, setIsOpenedEditProfilePopup] = useState(false);
     const [isOpenedEditAvatarPopup, setIsOpenedEditAvatarPopup] = useState(false);
@@ -48,15 +48,19 @@ function App() {
         }
     }, [loggedIn]);
 
+    //при проверке токена меняю состояние запроса isFetching чтобы не было "моргания" между компонентами Login и Main
+    //понимаю что это может быть костыль...
     function handleTokenCheck() {
         if (localStorage.getItem('jwt')) {
             const jwt = localStorage.getItem('jwt');
+            setIsFetching(true);
             auth.checkToken(jwt)
                 .then(({data}) => {
                     setCurrentUser(prevValue => ({...prevValue, email: data.email}));
                     setLoggedIn(true);
                     history.push('/');
                 })
+                .finally(() => setIsFetching(false));
         }
     }
 
@@ -215,9 +219,9 @@ function App() {
                 </Header>
                 <Switch>
                     <Route path="/sign-in">
-                        <Login
+                        {!isFetching && <Login
                             onSubmit={handleLogin}
-                        />
+                        />}
                     </Route>
                     <Route path="/sign-up">
                         <Register
