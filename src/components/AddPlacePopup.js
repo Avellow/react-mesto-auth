@@ -2,7 +2,13 @@ import PopupWithForm from "./PopupWithForm";
 import {useContext, useEffect, useState} from "react";
 import {FormsFetchingContext} from "../contexts/FormsFetchingContext";
 
-function AddPlacePopup({ isOpen, onClose, onCardSubmit }) {
+function AddPlacePopup(props) {
+
+    const {
+        isOpen,
+        onClose,
+        onCardSubmit
+    } = props;
 
     const [name, setName] = useState('');
     const [link, setLink] = useState('');
@@ -14,7 +20,6 @@ function AddPlacePopup({ isOpen, onClose, onCardSubmit }) {
         setName('');
         setLink('');
         setErrors({});
-
     }, [isOpen]);
 
     function errorsChecker(el) {
@@ -24,7 +29,7 @@ function AddPlacePopup({ isOpen, onClose, onCardSubmit }) {
             setErrors(prevErrors => {
                 delete prevErrors[el.name];
                 return prevErrors;
-            })
+            });
         }
     }
 
@@ -32,7 +37,7 @@ function AddPlacePopup({ isOpen, onClose, onCardSubmit }) {
         for (let key in errors) {
             return false;
         }
-        return true
+        return true;
     }
 
     function isInputsFilled() {
@@ -65,7 +70,7 @@ function AddPlacePopup({ isOpen, onClose, onCardSubmit }) {
             name={'add-place'}
             isOpen={isOpen}
             onClose={onClose}
-            buttonTextValue={buttonText.addPlace}
+            buttonText={buttonText.addPlace}
             isButtonDisabled={!(isInputsFilled() && isEmptyErrors())}
         >
             <fieldset className="form__field">

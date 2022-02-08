@@ -4,6 +4,16 @@ import {CurrentUserContext} from "../contexts/CurrentUserContext";
 
 function Main(props) {
 
+    const {
+        onEditAvatar,
+        onEditProfile,
+        onAddPlace,
+        cards,
+        onCardClick,
+        onCardLike,
+        onCardDelete
+    } = props;
+
     const [userName, setUserName] = useState('');
     const [userDescription, setUserDescription] = useState('');
     const [userAvatar, setUserAvatar] = useState('');
@@ -23,7 +33,7 @@ function Main(props) {
                     <img className="profile__avatar" src={userAvatar} alt="аватар" />
                     <div
                         className="profile__avatar-overlay"
-                        onClick={props.onEditAvatar}
+                        onClick={onEditAvatar}
                     />
                 </div>
                 <div className="profile__info">
@@ -32,7 +42,7 @@ function Main(props) {
                         className="profile__edit-button"
                         type="button"
                         aria-label="edit"
-                        onClick={props.onEditProfile}
+                        onClick={onEditProfile}
                     />
                     <p className="profile__job">{userDescription}</p>
                 </div>
@@ -40,19 +50,19 @@ function Main(props) {
                     className="profile__add-button"
                     type="button"
                     aria-label="add"
-                    onClick={props.onAddPlace}
+                    onClick={onAddPlace}
                 />
             </section>
 
             <section className="places">
                 <ul className="places__list">
-                    {props.cards.map((card, i) => (
+                    {cards.map((card) => (
                         <Card
                             card={card}
                             key={card._id}
-                            onCardClick={props.onCardClick}
-                            onCardLike={props.onCardLike}
-                            onCardDelete={props.onCardDelete}
+                            onCardClick={onCardClick}
+                            onCardLike={onCardLike}
+                            onCardDelete={onCardDelete}
                         />
                     ))}
                 </ul>

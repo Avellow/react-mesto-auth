@@ -1,7 +1,14 @@
 import {useContext} from "react";
 import {CurrentUserContext} from "../contexts/CurrentUserContext";
 
-function Card({card, onCardClick, onCardLike, onCardDelete}) {
+function Card(props) {
+
+    const {
+        card,
+        onCardClick,
+        onCardLike,
+        onCardDelete
+    } = props;
 
     const { _id } = useContext(CurrentUserContext);
 

@@ -3,7 +3,13 @@ import {useContext, useEffect, useState} from "react";
 import {CurrentUserContext} from "../contexts/CurrentUserContext";
 import {FormsFetchingContext} from "../contexts/FormsFetchingContext";
 
-function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
+function EditProfilePopup(props) {
+
+    const {
+        isOpen,
+        onClose,
+        onUpdateUser
+    } = props;
 
     const [name, setName] = useState('Name');
     const [description, setDescription] = useState('About');
@@ -66,12 +72,12 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
             name={'edit-profile'}
             isOpen={isOpen}
             onClose={onClose}
-            buttonTextValue={buttonText.editProfile}
+            buttonText={buttonText.editProfile}
             isButtonDisabled={!isEmptyErrors()}
         >
             <fieldset className="form__field">
                 <input
-                    value={name || ''} //- A component is changing an uncontrolled input of type text to be controlled.
+                    value={name || ''}
                     onChange={handleNameChange}
                     className={setClassName('username')}
                     type="text"

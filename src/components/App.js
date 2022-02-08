@@ -202,13 +202,10 @@ function App() {
     return (
         <div className="root">
             <CurrentUserContext.Provider value={currentUser}>
-                <Header
-
-                    linkText={'Войти'}
-                    link={'/sign-in'}
-                    loggedIn={loggedIn}
-                >
-                    {loggedIn && <p className='profile-status__email'>{currentUser.email}</p>}
+                <Header>
+                    {loggedIn
+                        && <p className='profile-status__email'>{currentUser.email}</p>
+                    }
                     <Link
                         className='sign-link'
                         to={signActionLink.to}

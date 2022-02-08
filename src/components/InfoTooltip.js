@@ -1,7 +1,14 @@
 import successLogo from './../images/sign-up-status/icon_success.png';
 import failedLogo from './../images/sign-up-status/icon_failed.png';
 
-function InfoTooltip({isOpen, name, success, onClose }) {
+function InfoTooltip(props) {
+
+    const {
+        isOpen,
+        name,
+        success,
+        onClose
+    } = props;
 
     const text = success ? 'Вы успешно зарегистрировались!' : 'Что-то пошло не так! Попробуйте ещё раз.'
     const icon = success ? successLogo : failedLogo;
@@ -18,7 +25,6 @@ function InfoTooltip({isOpen, name, success, onClose }) {
                     onClick={onClose}
                 />
             </div>
-
         </div>
     )
 }

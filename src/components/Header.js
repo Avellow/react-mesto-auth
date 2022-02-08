@@ -1,17 +1,14 @@
 import logo from "../images/header/logo.svg";
-import {Link, useHistory, useLocation} from "react-router-dom";
-import {useEffect} from "react";
-
 
 function Header(props) {
 
-
+    const { children } = props;
 
     return (
         <header className="header">
             <img className="header__logo" src={logo} alt="лого" />
             <div className='profile-status'>
-                {props.children}
+                {children}
             </div>
         </header>
     )

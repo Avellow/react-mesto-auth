@@ -4,6 +4,8 @@ import {useState} from "react";
 
 function Register(props) {
 
+    const { onSubmit } = props;
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -17,7 +19,7 @@ function Register(props) {
 
     function handleSubmit(e) {
         e.preventDefault();
-        props.onSubmit(email, password);
+        onSubmit(email, password);
     }
 
     return (

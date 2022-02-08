@@ -2,7 +2,14 @@ import PopupWithForm from "./PopupWithForm";
 import {useContext} from "react";
 import {FormsFetchingContext} from "../contexts/FormsFetchingContext";
 
-function ConfirmPopup({ isOpen, onClose, onCardDelete, card }) {
+function ConfirmPopup(props) {
+
+    const {
+        isOpen,
+        onClose,
+        onCardDelete,
+        card
+    } = props;
 
     const buttonText = useContext(FormsFetchingContext);
 
@@ -16,7 +23,7 @@ function ConfirmPopup({ isOpen, onClose, onCardDelete, card }) {
             title={'Вы уверены?'}
             isOpen={isOpen}
             onClose={onClose}
-            buttonTextValue={buttonText.confirmAction}
+            buttonText={buttonText.confirmAction}
             onSubmit={handleSubmit}
         />
     )

@@ -1,6 +1,12 @@
 import {useEffect, useRef} from "react";
 
-function ImagePopup({card, isOpen, onClose}) {
+function ImagePopup(props) {
+
+    const {
+        card,
+        isOpen,
+        onClose
+    } = props;
 
     const popupRef = useRef();
 

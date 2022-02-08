@@ -5,6 +5,12 @@ import {FormsFetchingContext} from "../contexts/FormsFetchingContext";
 
 function EditAvatarPopup(props) {
 
+    const {
+        isOpen,
+        onClose,
+        onUpdateAvatar
+    } = props;
+
     const [link, setLink] = useState('');
     const [error, setError] = useState('');
 
@@ -13,7 +19,7 @@ function EditAvatarPopup(props) {
     useEffect(() => {
         setError('');
         setLink('');
-    }, [props.isOpen])
+    }, [isOpen])
 
     function setClassName(inputName) {
         return `form__input ${error ? 'form__input_type_error' : ''} form__input_type_avatar-${inputName}`;
@@ -26,7 +32,7 @@ function EditAvatarPopup(props) {
 
     function handleSubmit(e) {
         e.preventDefault();
-        props.onUpdateAvatar({
+        onUpdateAvatar({
             avatar: link
         })
     }
@@ -36,9 +42,9 @@ function EditAvatarPopup(props) {
             onSubmit={handleSubmit}
             title={'Обновить аватар'}
             name={'edit-avatar'}
-            isOpen={props.isOpen}
-            onClose={props.onClose}
-            buttonTextValue={buttonText.updateAvatar}
+            isOpen={isOpen}
+            onClose={onClose}
+            buttonText={buttonText.updateAvatar}
             isButtonDisabled={!(!error && link)}
         >
             <input
