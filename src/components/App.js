@@ -10,7 +10,7 @@ import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
 import {FormsFetchingContext, formsButtonTexts} from "../contexts/FormsFetchingContext";
 import ConfirmPopup from "./ConfirmPopup";
-import {Switch, Route, useLocation, Link, Redirect} from "react-router-dom";
+import {Switch, Route, useLocation, Link, Redirect, useHistory} from "react-router-dom";
 import Register from "./Register";
 import Login from "./Login";
 import ProtectedRoute from "./ProtectedRoute";
@@ -39,11 +39,27 @@ function App() {
     useEffect(() => {
         Promise.all([api.getUserInfo(), api.getInitialCards()])
             .then(([user, cards]) => {
-                setCurrentUser(user);
+                setCurrentUser(prevValue => ({...prevValue, ...user}));
                 setCards(cards);
             })
             .catch(err => console.log(`${err} не удалось получить данные с сервера`));
     }, []);
+
+    useEffect(() => {
+        handleTokenCheck();
+    }, [loggedIn])
+
+    function handleTokenCheck() {
+        if (localStorage.getItem('jwt')) {
+            const jwt = localStorage.getItem('jwt')
+            auth.checkToken(jwt)
+                .then(({data}) => {
+                    setCurrentUser(prevValue => ({...prevValue, email: data.email}));
+                    setLoggedIn(true);
+                    history.push('/');
+                })
+        }
+    }
 
     function handleCardLike(card) {
         const isLiked = card.likes.some(i => i._id === userId);
@@ -150,6 +166,7 @@ function App() {
 
 
     //хендлеры регистрации и авторизации
+    const history = useHistory();
     const [registrationSuccess, setRegistrationSuccess] = useState(false)
 
     function handleRegister(email, password) {
@@ -165,6 +182,22 @@ function App() {
             })
     }
 
+    function handleLogin(email, password) {
+        auth.authorize(email, password)
+            .then(() => {
+                setLoggedIn(true);
+                history.push('/');
+            })
+            .catch(console.log)
+    }
+
+    function handleSignClick() {
+        if (loggedIn) {
+            setLoggedIn(false);
+            localStorage.removeItem('jwt');
+        }
+    }
+
 
     return (
         <div className="root">
@@ -175,11 +208,21 @@ function App() {
                     link={'/sign-in'}
                     loggedIn={loggedIn}
                 >
-                    <Link className='sign-link' to={signActionLink.to}>{signActionLink.text}</Link>
+                    {loggedIn && <p className='profile-status__email'>{currentUser.email}</p>}
+                    <Link
+                        className='sign-link'
+                        to={signActionLink.to}
+                        onClick={handleSignClick}
+                        style={loggedIn ? {color: '#a9a9a9'} : {color: 'white'}}
+                    >
+                        {signActionLink.text}
+                    </Link>
                 </Header>
                 <Switch>
                     <Route path="/sign-in">
-                        <Login />
+                        <Login
+                            onSubmit={handleLogin}
+                        />
                     </Route>
                     <Route path="/sign-up">
                         <Register

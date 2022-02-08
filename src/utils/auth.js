@@ -25,25 +25,23 @@ export const authorize = (email, password) => {
         },
         body: JSON.stringify({ password, email })
     })
-        .then(response => response.json())
+        .then(_checkResult)
         .then(data => {
             if (data.token) {
                 console.log(data.token); //CONSOOoOOOOOOOOOOOOOLE
                 localStorage.setItem('jwt', data.token);
             }
         })
-        .catch(console.log)
+
 }
 
-export const getUserInfo = () => {
+export const checkToken = (jwt) => {
     return fetch(`${BASE_URL}/users/me`, {
         method: 'GET',
         headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${localStorage.getItem('jwt')}`
+            "Authorization": `Bearer ${jwt}`
         }
     })
-        .then(response => response.json())
-        .then(data => data)
-        .catch(console.log)
+        .then(_checkResult)
 }

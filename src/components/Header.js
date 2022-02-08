@@ -11,7 +11,6 @@ function Header(props) {
         <header className="header">
             <img className="header__logo" src={logo} alt="лого" />
             <div className='profile-status'>
-                {props.loggedIn && props.email}
                 {props.children}
             </div>
         </header>
