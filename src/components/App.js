@@ -10,13 +10,15 @@ import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
 import {FormsFetchingContext, formsButtonTexts} from "../contexts/FormsFetchingContext";
 import ConfirmPopup from "./ConfirmPopup";
-import {Switch, Route, useLocation, Link, useHistory} from "react-router-dom";
+import {Switch, Route, useLocation, useHistory} from "react-router-dom";
 import Register from "./Register";
 import Login from "./Login";
 import ProtectedRoute from "./ProtectedRoute";
 import InfoTooltip from "./InfoTooltip";
 import * as auth from './../utils/auth'
 import {errorsInfo} from "../utils/errorsInfo";
+import ProfileSignStatus from "./ProfileSignStatus";
+import MenuButton from "./MenuButton";
 
 function App() {
 
@@ -32,6 +34,8 @@ function App() {
     const [isFetching, setIsFetching] = useState(false);
     const [loggedIn, setLoggedIn] = useState(false);
     const [registrationSuccess, setRegistrationSuccess] = useState(false);
+    const [currentWindowWidth, setCurrentWindowWidth] = useState(window.innerWidth);
+    const [isDropDownProfileMenuOpen, setIsDropDownProfileMenuOpen] = useState(false);
 
     const location = useLocation();
     const history = useHistory();
@@ -67,6 +71,12 @@ function App() {
                 .catch(err => console.log(`${err} не удалось получить данные с сервера`));
         }
     }, [loggedIn, handleTokenCheck]);
+
+    useEffect(() => {
+        window.addEventListener('resize', () => {
+            setCurrentWindowWidth(window.innerWidth);
+        })
+    }, [currentWindowWidth])
 
     //хендлеры для карточки
     function handleCardLike(card) {
@@ -169,7 +179,6 @@ function App() {
                     : {to: '/sign-up', text: 'Регистрация'};
         }
     }
-    const signActionLink = formSignActionLink();
 
     //хендлеры аутентификации
     function handleRegister(email, password) {
@@ -201,21 +210,35 @@ function App() {
         }
     }
 
+    function handleProfileMenuButtonClick() {
+        setIsDropDownProfileMenuOpen(!isDropDownProfileMenuOpen);
+    }
+
     return (
         <div className="root">
             <CurrentUserContext.Provider value={currentUser}>
+                {currentWindowWidth < 571
+                    && <ProfileSignStatus
+                            loggedIn={loggedIn}
+                            linkInfo={formSignActionLink()}
+                            onSignStatusClick={handleSignClick}
+                            email={currentUser.email}
+                            isShown={isDropDownProfileMenuOpen}
+                        />
+                }
                 <Header>
-                    {loggedIn
-                        && <p className='profile-status__email'>{currentUser.email}</p>
+                    {currentWindowWidth > 570
+                        ? <ProfileSignStatus
+                            loggedIn={loggedIn}
+                            linkInfo={formSignActionLink()}
+                            onSignStatusClick={handleSignClick}
+                            email={currentUser.email}
+                        />
+                        : <MenuButton
+                            isMenuShown={isDropDownProfileMenuOpen}
+                            onClick={handleProfileMenuButtonClick}
+                        />
                     }
-                    <Link
-                        className='sign-link'
-                        to={signActionLink.to}
-                        onClick={handleSignClick}
-                        style={loggedIn ? {color: '#a9a9a9'} : {color: 'white'}}
-                    >
-                        {signActionLink.text}
-                    </Link>
                 </Header>
                 <Switch>
                     <Route path="/sign-in">

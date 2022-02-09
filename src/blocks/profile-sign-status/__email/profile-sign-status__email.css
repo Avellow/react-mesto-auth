@@ -1,0 +1,12 @@
+.profile-sign-status__email {
+    margin: 0 24px 0 0;
+    padding: 0;
+    font-size: 18px;
+    line-height: 1.21;
+}
+
+@media screen and (max-width: 570px) {
+    .profile-sign-status__email {
+        margin: 40px 0 18px;
+    }
+}

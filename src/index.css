@@ -9,6 +9,10 @@
 @import url(./blocks/profile-status/profile-status.css);
 @import url(./blocks/profile-status/__email/profile-status__email.css);
 
+@import url(./blocks/profile-sign-status/profile-sign-status.css);
+@import url(./blocks/profile-sign-status/__email/profile-sign-status__email.css);
+@import url(./blocks/profile-sign-status/__sign-link/profile-sign-status__sign-link.css);
+
 @import url(./blocks/sign-link/sign-link.css);
 
 @import url(./blocks/content/content.css);

@@ -1,0 +1,11 @@
+.profile-sign-status__sign-link {
+    text-decoration: none;
+    font-size: 18px;
+    line-height: 1.21;
+}
+
+@media screen and (max-width: 570px) {
+    .profile-sign-status__sign-link {
+        margin: 0 0 40px;
+    }
+}
