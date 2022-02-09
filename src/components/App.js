@@ -31,18 +31,16 @@ function App() {
     const [cards, setCards] = useState([]);
     const [isFetching, setIsFetching] = useState(false);
     const [loggedIn, setLoggedIn] = useState(false);
+    const [registrationSuccess, setRegistrationSuccess] = useState(false);
 
     const location = useLocation();
+    const history = useHistory();
 
     const buttonFormText = isFetching ? 'fetchingText' : 'defaultText';
     const { _id: userId } = currentUser;
 
-    //хендлеры регистрации и авторизации
-    const history = useHistory();
-    const [registrationSuccess, setRegistrationSuccess] = useState(false);
-
-    //при проверке токена меняю состояние запроса isFetching и вешаю зависимость на отображение компонента Login
-    // чтобы не было "моргания" между компонентами Login и Main
+    // при проверке токена меняю состояние запроса isFetching и вешаю зависимость на отображение компонента Login
+    // чтобы не было "моргания" между компонентами Login и Main, если fetch успешен
     const handleTokenCheck = useCallback(() => {
         if (localStorage.getItem('jwt')) {
             const jwt = localStorage.getItem('jwt');
@@ -56,7 +54,7 @@ function App() {
                 .catch(err => console.log(`Ошибка ${err} - ${errorsInfo.tokenChecking[err]}`))
                 .finally(() => setIsFetching(false));
         }
-    }, [history])
+    }, [history]);
 
     useEffect(() => {
         handleTokenCheck();
@@ -70,6 +68,7 @@ function App() {
         }
     }, [loggedIn, handleTokenCheck]);
 
+    //хендлеры для карточки
     function handleCardLike(card) {
         const isLiked = card.likes.some(i => i._id === userId);
         api.changeLikeCardStatus(card._id, isLiked)
@@ -90,6 +89,17 @@ function App() {
             .catch(err => console.log(`Ошибка ${err}, не удалось удалить карточку`));
     }
 
+    function handleCardImageClick(card) {
+        setIsOpenedImagePopup(true);
+        setSelectedCard(card);
+    }
+
+    function handleRemoveCardClick(card) {
+        setIsOpenedConfirmPopup(true);
+        setSelectedCard(card);
+    }
+
+    //хендлеры редактирования профиля и добавления карточек
     function handleUpdateUser(user) {
         setIsFetching(true);
         api.postUserInfo(user)
@@ -124,11 +134,6 @@ function App() {
             .catch(err => console.log(`Ошибка ${err}, не удалось добавить карточку`));
     }
 
-    function handleCardImageClick(card) {
-        setIsOpenedImagePopup(true);
-        setSelectedCard(card);
-    }
-
     function handleEditAvatarClick() {
         setIsOpenedEditAvatarPopup(true);
     }
@@ -141,11 +146,6 @@ function App() {
         setIsOpenedAddPlacePopup(true);
     }
 
-    function handleRemoveCardClick(card) {
-        setIsOpenedConfirmPopup(true);
-        setSelectedCard(card);
-    }
-
     function closeAllPopups() {
         setIsOpenedAddPlacePopup(false);
         setIsOpenedEditProfilePopup(false);
@@ -155,7 +155,6 @@ function App() {
         setIsTooltipOpen(false);
         setSelectedCard({});
     }
-
 
     //формироует объект с описанием текущей ссылки в хедере в зависимости от состояния
     function formSignActionLink() {
@@ -172,8 +171,7 @@ function App() {
     }
     const signActionLink = formSignActionLink();
 
-
-
+    //хендлеры аутентификации
     function handleRegister(email, password) {
         auth.register(email, password)
             .then(() => {
@@ -203,7 +201,6 @@ function App() {
         }
     }
 
-
     return (
         <div className="root">
             <CurrentUserContext.Provider value={currentUser}>
@@ -223,15 +220,11 @@ function App() {
                 <Switch>
                     <Route path="/sign-in">
                         {!isFetching
-                            && <Login
-                                    onSubmit={handleLogin}
-                                />
+                            && <Login onSubmit={handleLogin} />
                         }
                     </Route>
                     <Route path="/sign-up">
-                        <Register
-                            onSubmit={handleRegister}
-                        />
+                        <Register onSubmit={handleRegister} />
                     </Route>
                     <ProtectedRoute
                         exact path='/'
@@ -280,7 +273,7 @@ function App() {
 
                 <InfoTooltip
                     isOpen={isTooltipOpen}
-                    name={'tooltip'}
+                    name='tooltip'
                     onClose={closeAllPopups}
                     success={registrationSuccess}
                 />
