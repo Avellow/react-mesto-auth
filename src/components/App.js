@@ -16,6 +16,7 @@ import Login from "./Login";
 import ProtectedRoute from "./ProtectedRoute";
 import InfoTooltip from "./InfoTooltip";
 import * as auth from './../utils/auth'
+import {errorsInfo} from "../utils/errorsInfo";
 
 function App() {
 
@@ -52,6 +53,7 @@ function App() {
                     setLoggedIn(true);
                     history.push('/');
                 })
+                .catch(err => console.log(`Ошибка ${err} - ${errorsInfo.tokenChecking[err]}`))
                 .finally(() => setIsFetching(false));
         }
     }, [history])
@@ -179,7 +181,7 @@ function App() {
                 setIsTooltipOpen(true);
             })
             .catch(err => {
-                console.log(`${err} - некорректно заполнено одно из полей`);
+                console.log(`Ошибка ${err} - ${errorsInfo.registration[err]}`);
                 setRegistrationSuccess(false);
                 setIsTooltipOpen(true);
             })
@@ -191,7 +193,7 @@ function App() {
                 setLoggedIn(true);
                 history.push('/');
             })
-            .catch(console.log)
+            .catch(err => console.log(`Ошибка ${err} - ${errorsInfo.authorization[err]}`));
     }
 
     function handleSignClick() {
