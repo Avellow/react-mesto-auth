@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
@@ -10,7 +10,7 @@ import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
 import {FormsFetchingContext, formsButtonTexts} from "../contexts/FormsFetchingContext";
 import ConfirmPopup from "./ConfirmPopup";
-import {Switch, Route, useLocation, Link, Redirect, useHistory} from "react-router-dom";
+import {Switch, Route, useLocation, Link, useHistory} from "react-router-dom";
 import Register from "./Register";
 import Login from "./Login";
 import ProtectedRoute from "./ProtectedRoute";
@@ -18,7 +18,7 @@ import InfoTooltip from "./InfoTooltip";
 import * as auth from './../utils/auth'
 
 function App() {
-    //надо подумать: может вообще привязать отображение некоторых компонентов на isFetching
+
     const [isOpenedAddPlacePopup, setIsOpenedAddPlacePopup] = useState(false);
     const [isOpenedEditProfilePopup, setIsOpenedEditProfilePopup] = useState(false);
     const [isOpenedEditAvatarPopup, setIsOpenedEditAvatarPopup] = useState(false);
@@ -36,41 +36,45 @@ function App() {
     const buttonFormText = isFetching ? 'fetchingText' : 'defaultText';
     const { _id: userId } = currentUser;
 
-    useEffect(() => {
-        handleTokenCheck();
-        if (loggedIn) {
-            Promise.all([api.getUserInfo(), api.getInitialCards()])
-                .then(([user, cards]) => {
-                    setCurrentUser(prevValue => ({...prevValue, ...user}));
-                    setCards(cards);
-                })
-                .catch(err => console.log(`${err} не удалось получить данные с сервера`));
-        }
-    }, [loggedIn]);
+    //хендлеры регистрации и авторизации
+    const history = useHistory();
+    const [registrationSuccess, setRegistrationSuccess] = useState(false);
 
-    //при проверке токена меняю состояние запроса isFetching чтобы не было "моргания" между компонентами Login и Main
-    //понимаю что это может быть костыль...
-    function handleTokenCheck() {
+    //при проверке токена меняю состояние запроса isFetching и вешаю зависимость на отображение компонента Login
+    // чтобы не было "моргания" между компонентами Login и Main
+    const handleTokenCheck = useCallback(() => {
         if (localStorage.getItem('jwt')) {
             const jwt = localStorage.getItem('jwt');
             setIsFetching(true);
             auth.checkToken(jwt)
                 .then(({data}) => {
-                    setCurrentUser(prevValue => ({...prevValue, email: data.email}));
+                    setCurrentUser(prevUserInfo => ({...prevUserInfo, email: data.email}));
                     setLoggedIn(true);
                     history.push('/');
                 })
                 .finally(() => setIsFetching(false));
         }
-    }
+    }, [history])
+
+    useEffect(() => {
+        handleTokenCheck();
+        if (loggedIn) {
+            Promise.all([api.getUserInfo(), api.getInitialCards()])
+                .then(([user, cards]) => {
+                    setCurrentUser(prevUserInfo => ({...prevUserInfo, ...user}));
+                    setCards(cards);
+                })
+                .catch(err => console.log(`${err} не удалось получить данные с сервера`));
+        }
+    }, [loggedIn, handleTokenCheck]);
 
     function handleCardLike(card) {
         const isLiked = card.likes.some(i => i._id === userId);
         api.changeLikeCardStatus(card._id, isLiked)
             .then(newCard => {
-                setCards(prevState => prevState.map(c => c._id === card._id ? newCard : c))
+                setCards(prevState => prevState.map(c => c._id === card._id ? newCard : c));
             })
-            .catch(err => console.log(`Ошибка ${err}, не удалось взаимодействовать с лайком`))
+            .catch(err => console.log(`Ошибка ${err}, не удалось взаимодействовать с лайком`));
     }
 
     function handleDeleteCard(card) {
@@ -167,13 +171,10 @@ function App() {
     const signActionLink = formSignActionLink();
 
 
-    //хендлеры регистрации и авторизации
-    const history = useHistory();
-    const [registrationSuccess, setRegistrationSuccess] = useState(false)
 
     function handleRegister(email, password) {
         auth.register(email, password)
-            .then(data => {
+            .then(() => {
                 setRegistrationSuccess(true);
                 setIsTooltipOpen(true);
             })
@@ -219,9 +220,11 @@ function App() {
                 </Header>
                 <Switch>
                     <Route path="/sign-in">
-                        {!isFetching && <Login
-                            onSubmit={handleLogin}
-                        />}
+                        {!isFetching
+                            && <Login
+                                    onSubmit={handleLogin}
+                                />
+                        }
                     </Route>
                     <Route path="/sign-up">
                         <Register

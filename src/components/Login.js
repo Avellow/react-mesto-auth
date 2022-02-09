@@ -30,6 +30,7 @@ function Login(props) {
             />
             <input
                 className="sign-form__input"
+                type='password'
                 placeholder="Пароль"
                 onChange={handlePasswordChange}
             />
