@@ -5,5 +5,10 @@
     flex-direction: column;
     min-width: 358px;
     margin: auto;
+}
 
+@media screen and (max-width: 570px) {
+    .sign-form {
+        min-width: min(calc(260/320 * 100%), 358px);
+    }
 }

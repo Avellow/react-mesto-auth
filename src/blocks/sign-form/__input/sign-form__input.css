@@ -1,9 +1,9 @@
 .sign-form__input {
-    margin-bottom: 30px;
+    margin-bottom: 28px;
     background-color: #000000;
     border: 0;
     border-bottom: 2px solid #CCC;
-    padding-bottom: 13px;
+    padding-bottom: 10px;
     font-size: 14px;
     line-height: 1.21;
     color: #FFF;
@@ -21,4 +21,10 @@
 
 .sign-form__input:last-of-type {
     margin-bottom: 216px;
+}
+
+@media screen and (max-width: 570px) {
+    .sign-form__input:last-of-type {
+        margin-bottom: 173px;
+    }
 }

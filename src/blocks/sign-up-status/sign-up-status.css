@@ -5,3 +5,10 @@
     border-radius: 10px;
     position: relative;
 }
+
+@media screen and (max-width: 570px) {
+    .sign-up-status {
+        width: min(calc(280/320 * 100%), 430px);
+        height: 308px;
+    }
+}

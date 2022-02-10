@@ -3,6 +3,12 @@
     line-height: 1.21;
     font-weight: 900;
     text-align: center;
-    width: 358px;
+    width: 100%;
     margin: 0 auto;
+}
+
+@media screen and (max-width: 570px) {
+    .sign-up-status__subtitle {
+        font-size: 20px;
+    }
 }
