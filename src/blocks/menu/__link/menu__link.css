@@ -1,11 +1,13 @@
-.profile-sign-status__sign-link {
+.menu__link {
     text-decoration: none;
     font-size: 18px;
     line-height: 1.21;
+    color: #fff
 }
 
 @media screen and (max-width: 570px) {
-    .profile-sign-status__sign-link {
+    .menu__link {
         margin: 0 0 40px;
+        font-size: 14px;
     }
 }

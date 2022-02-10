@@ -10,15 +10,15 @@ import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
 import {FormsFetchingContext, formsButtonTexts} from "../contexts/FormsFetchingContext";
 import ConfirmPopup from "./ConfirmPopup";
-import {Switch, Route, useLocation, useHistory} from "react-router-dom";
+import {Switch, Route, useHistory} from "react-router-dom";
 import Register from "./Register";
 import Login from "./Login";
 import ProtectedRoute from "./ProtectedRoute";
 import InfoTooltip from "./InfoTooltip";
 import * as auth from './../utils/auth'
 import {errorsInfo} from "../utils/errorsInfo";
-import ProfileSignStatus from "./ProfileSignStatus";
-import MenuButton from "./MenuButton";
+import NavBar from "./NavBar";
+import {menuLinks} from "../utils/constants";
 
 function App() {
 
@@ -35,9 +35,7 @@ function App() {
     const [loggedIn, setLoggedIn] = useState(false);
     const [registrationSuccess, setRegistrationSuccess] = useState(false);
     const [currentWindowWidth, setCurrentWindowWidth] = useState(window.innerWidth);
-    const [isDropDownProfileMenuOpen, setIsDropDownProfileMenuOpen] = useState(false);
 
-    const location = useLocation();
     const history = useHistory();
 
     const buttonFormText = isFetching ? 'fetchingText' : 'defaultText';
@@ -166,20 +164,6 @@ function App() {
         setSelectedCard({});
     }
 
-    //формироует объект с описанием текущей ссылки в хедере в зависимости от состояния
-    function formSignActionLink() {
-        switch (location.pathname) {
-            case '/sign-in':
-                return {to: '/sign-up', text: 'Регистрация'};
-            case '/sign-up':
-                return {to: '/sign-in', text: 'Войти'};
-            default:
-                return loggedIn
-                    ? {to: '/sign-in', text: 'Выйти'}
-                    : {to: '/sign-up', text: 'Регистрация'};
-        }
-    }
-
     //хендлеры аутентификации
     function handleRegister(email, password) {
         auth.register(email, password)
@@ -210,41 +194,20 @@ function App() {
         }
     }
 
-    function handleProfileMenuButtonClick() {
-        setIsDropDownProfileMenuOpen(!isDropDownProfileMenuOpen);
-    }
-
     return (
         <div className="root">
             <CurrentUserContext.Provider value={currentUser}>
-                {currentWindowWidth < 571
-                    && <ProfileSignStatus
-                            loggedIn={loggedIn}
-                            linkInfo={formSignActionLink()}
-                            onSignStatusClick={handleSignClick}
-                            email={currentUser.email}
-                            isShown={isDropDownProfileMenuOpen}
-                        />
-                }
-                <Header>
-                    {currentWindowWidth > 570
-                        ? <ProfileSignStatus
-                            loggedIn={loggedIn}
-                            linkInfo={formSignActionLink()}
-                            onSignStatusClick={handleSignClick}
-                            email={currentUser.email}
-                        />
-                        : <MenuButton
-                            isMenuShown={isDropDownProfileMenuOpen}
-                            onClick={handleProfileMenuButtonClick}
-                        />
-                    }
+                <Header loggedIn={loggedIn} windowWidth={currentWindowWidth}>
+                    { loggedIn && <p className='menu__email'>{currentUser.email}</p> }
+                    <NavBar
+                        loggedIn={loggedIn}
+                        links={menuLinks}
+                        onExit={handleSignClick}
+                    />
                 </Header>
                 <Switch>
                     <Route path="/sign-in">
-                        {!isFetching
-                            && <Login onSubmit={handleLogin} />
-                        }
+                        { !isFetching && <Login onSubmit={handleLogin} /> }
                     </Route>
                     <Route path="/sign-up">
                         <Register onSubmit={handleRegister} />
