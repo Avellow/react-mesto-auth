@@ -15,10 +15,9 @@ import Register from "./Register";
 import Login from "./Login";
 import ProtectedRoute from "./ProtectedRoute";
 import InfoTooltip from "./InfoTooltip";
-import * as auth from './../utils/auth'
-import {errorsInfo} from "../utils/errorsInfo";
+import * as auth from './../utils/auth';
 import NavBar from "./NavBar";
-import {menuLinks} from "../utils/constants";
+import {menuLinks, errorsInfo} from "../utils/constants";
 
 function App() {
 
@@ -42,7 +41,7 @@ function App() {
     const { _id: userId } = currentUser;
 
     // при проверке токена меняю состояние запроса isFetching и вешаю зависимость на отображение компонента Login
-    // чтобы не было "моргания" между компонентами Login и Main, если fetch успешен
+    // чтобы не было "моргания" между компонентами Login и Main, если авторизация по токену успешна
     const handleTokenCheck = useCallback(() => {
         if (localStorage.getItem('jwt')) {
             const jwt = localStorage.getItem('jwt');
