@@ -5,4 +5,10 @@
     margin-bottom: 15px;
     font-size: 18px;
     line-height: 1.21;
+    transition: opacity 0.3s ease;
+}
+
+.sign-form__submit:hover {
+    opacity: 0.85;
+    cursor: pointer;
 }

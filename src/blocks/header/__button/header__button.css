@@ -4,4 +4,10 @@
     border: none;
     background-color: black;
     background-repeat: no-repeat;
+    transition: opacity 0.3s ease;
+}
+
+.header__button:hover {
+    opacity: 0.6;
+    cursor: pointer;
 }
