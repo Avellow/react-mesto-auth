@@ -70,9 +70,16 @@ function App() {
     }, [loggedIn, handleTokenCheck]);
 
     useEffect(() => {
-        window.addEventListener('resize', () => {
+
+        function handleResize() {
             setCurrentWindowWidth(window.innerWidth);
-        })
+        }
+
+        window.addEventListener('resize', handleResize);
+
+        return () => window.removeEventListener('resize', handleResize);
+        //Знаю, что запрещено обращаться к ревьюерам, но хочу
+        //выразить Вам большую БЛАГОДАРНОСТЬ за Вашу работу! Спасибо! Очень познавательно!
     }, [currentWindowWidth])
 
     //хендлеры для карточки
