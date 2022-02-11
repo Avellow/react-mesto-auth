@@ -14,8 +14,8 @@ function ImagePopup(props) {
         popupRef.current.focus();
     }, [popupRef, isOpen]);
 
-    function handleEscDown(e) {
-        if (e.keyCode === 27) {
+    function handleEscDown(evt) {
+        if (evt.key === 'Escape') {
             onClose();
         }
     }
