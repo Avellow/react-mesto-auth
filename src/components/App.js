@@ -177,16 +177,19 @@ function App() {
             })
     }
 
-    function handleLogin(email, password) {
+    function onLogin(email, password) {
         auth.authorize(email, password)
-            .then(() => {
-                setLoggedIn(true);
-                history.push('/');
+            .then((data) => {
+                if (data.token) {
+                    localStorage.setItem('jwt', data.token);
+                    setLoggedIn(true);
+                    history.push('/');
+                }
             })
             .catch(err => console.log(`Ошибка ${err} - ${errorsInfo.authorization[err]}`));
     }
 
-    function handleSignClick() {
+    function onSignOut() {
         if (loggedIn) {
             setLoggedIn(false);
             localStorage.removeItem('jwt');
@@ -201,12 +204,12 @@ function App() {
                     <NavBar
                         loggedIn={loggedIn}
                         links={menuLinks}
-                        onExit={handleSignClick}
+                        onExit={onSignOut}
                     />
                 </Header>
                 <Switch>
                     <Route path="/sign-in">
-                        { !isFetching && <Login onSubmit={handleLogin} /> }
+                        { !isFetching && <Login onSubmit={onLogin} /> }
                     </Route>
                     <Route path="/sign-up">
                         <Register onSubmit={handleRegister} />

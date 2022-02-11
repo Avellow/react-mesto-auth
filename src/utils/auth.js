@@ -26,12 +26,6 @@ export const authorize = (email, password) => {
         body: JSON.stringify({ password, email })
     })
         .then(_checkResult)
-        .then(data => {
-            if (data.token) {
-                localStorage.setItem('jwt', data.token);
-            }
-        })
-
 }
 
 export const checkToken = (jwt) => {
