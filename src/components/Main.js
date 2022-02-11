@@ -14,37 +14,27 @@ function Main(props) {
         onCardDelete
     } = props;
 
-    const [userName, setUserName] = useState('');
-    const [userDescription, setUserDescription] = useState('');
-    const [userAvatar, setUserAvatar] = useState('');
-
     const { name, about, avatar } = useContext(CurrentUserContext);
-
-    useEffect(() => {
-        setUserName(name);
-        setUserDescription(about);
-        setUserAvatar(avatar);
-    }, [name, about, avatar])
 
     return (
         <main className="content">
             <section className="profile">
                 <div className="profile__avatar-container">
-                    <img className="profile__avatar" src={userAvatar} alt="аватар" />
+                    <img className="profile__avatar" src={avatar} alt="аватар" />
                     <div
                         className="profile__avatar-overlay"
                         onClick={onEditAvatar}
                     />
                 </div>
                 <div className="profile__info">
-                    <h1 className="profile__name">{userName}</h1>
+                    <h1 className="profile__name">{name}</h1>
                     <button
                         className="profile__edit-button"
                         type="button"
                         aria-label="edit"
                         onClick={onEditProfile}
                     />
-                    <p className="profile__job">{userDescription}</p>
+                    <p className="profile__job">{about}</p>
                 </div>
                 <button
                     className="profile__add-button"
