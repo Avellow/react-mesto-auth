@@ -110,8 +110,8 @@ function App() {
     function handleUpdateUser(user) {
         setIsFetching(true);
         api.postUserInfo(user)
-            .then(data => {
-                setCurrentUser(data);
+            .then(userData => {
+                setCurrentUser(prevUserInfo => ({...prevUserInfo, ...userData}));
                 closeAllPopups();
                 setIsFetching(false);
             })
@@ -121,8 +121,8 @@ function App() {
     function handleUpdateAvatar({ avatar }) {
         setIsFetching(true);
         api.updateAvatar(avatar)
-            .then(data => {
-                setCurrentUser(data);
+            .then(userData => {
+                setCurrentUser(prevUserInfo => ({...prevUserInfo, ...userData}));
                 closeAllPopups();
                 setIsFetching(false);
             })
