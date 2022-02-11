@@ -175,13 +175,12 @@ function App() {
         auth.register(email, password)
             .then(() => {
                 setRegistrationSuccess(true);
-                setIsTooltipOpen(true);
             })
             .catch(err => {
                 console.log(`Ошибка ${err} - ${errorsInfo.registration[err]}`);
                 setRegistrationSuccess(false);
-                setIsTooltipOpen(true);
             })
+            .finally(() => setIsTooltipOpen(true))
     }
 
     function onLogin(email, password) {
