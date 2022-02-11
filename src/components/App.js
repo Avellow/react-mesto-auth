@@ -164,7 +164,7 @@ function App() {
     }
 
     //хендлеры аутентификации
-    function handleRegister(email, password) {
+    function onRegister(email, password) {
         auth.register(email, password)
             .then(() => {
                 setRegistrationSuccess(true);
@@ -212,7 +212,7 @@ function App() {
                         { !isFetching && <Login onSubmit={onLogin} /> }
                     </Route>
                     <Route path="/sign-up">
-                        <Register onSubmit={handleRegister} />
+                        <Register onSubmit={onRegister} />
                     </Route>
                     <ProtectedRoute
                         exact path='/'
