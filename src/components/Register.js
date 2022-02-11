@@ -31,6 +31,7 @@ function Register(props) {
                 name="sign-in-email"
                 placeholder="Email"
                 onChange={handleEmailChange}
+                value={email}
                 required
             />
             <input
@@ -39,6 +40,7 @@ function Register(props) {
                 name="sign-in-password"
                 placeholder="Пароль"
                 onChange={handlePasswordChange}
+                value={password}
                 required
                 minLength="4"
                 maxLength="20"
