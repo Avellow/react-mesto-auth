@@ -1,6 +1,7 @@
 import PopupWithForm from "./PopupWithForm";
-import {useContext, useEffect, useState} from "react";
+import {useContext, useEffect} from "react";
 import {FormsFetchingContext} from "../contexts/FormsFetchingContext";
+import {useFormAndValidation} from "../hooks/useFormAndValidation";
 
 
 function EditAvatarPopup(props) {
@@ -11,29 +12,28 @@ function EditAvatarPopup(props) {
         onUpdateAvatar
     } = props;
 
-    const [link, setLink] = useState('');
-    const [error, setError] = useState('');
+    const {
+        values,
+        handleChange,
+        errors,
+        isValid,
+        resetForm
+    } = useFormAndValidation();
 
     const buttonText = useContext(FormsFetchingContext);
 
     useEffect(() => {
-        setError('');
-        setLink('');
+        resetForm();
     }, [isOpen])
 
     function setClassName(inputName) {
-        return `form__input ${error ? 'form__input_type_error' : ''} form__input_type_avatar-${inputName}`;
-    }
-
-    function handleChange(e) {
-        setLink(e.target.value);
-        setError(e.target.validationMessage);
+        return `form__input ${errors[inputName] ? 'form__input_type_error' : ''} form__input_type_avatar-${inputName}`;
     }
 
     function handleSubmit(e) {
         e.preventDefault();
         onUpdateAvatar({
-            avatar: link
+            avatar: values.avatar
         })
     }
 
@@ -45,10 +45,10 @@ function EditAvatarPopup(props) {
             isOpen={isOpen}
             onClose={onClose}
             buttonText={buttonText.updateAvatar}
-            isButtonDisabled={!(!error && link)}
+            isButtonDisabled={!isValid}
         >
             <input
-                value={link}
+                value={values.avatar || ''}
                 onChange={handleChange}
                 className={setClassName('url')}
                 type="url"
@@ -57,7 +57,7 @@ function EditAvatarPopup(props) {
                 placeholder="Ссылка на аватар"
                 required
             />
-            <span className="form__input-error form__input-error_active">{error}</span>
+            <span className="form__input-error form__input-error_active">{errors.avatar}</span>
         </PopupWithForm>
     )
 }
