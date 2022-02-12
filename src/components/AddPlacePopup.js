@@ -1,6 +1,7 @@
 import PopupWithForm from "./PopupWithForm";
 import {useContext, useEffect, useState} from "react";
 import {FormsFetchingContext} from "../contexts/FormsFetchingContext";
+import {useFormAndValidation} from "../hooks/useFormAndValidation";
 
 function AddPlacePopup(props) {
 
@@ -10,57 +11,27 @@ function AddPlacePopup(props) {
         onCardSubmit
     } = props;
 
-    const [name, setName] = useState('');
-    const [link, setLink] = useState('');
-    const [errors, setErrors] = useState({});
+    const {
+        values,
+        handleChange,
+        errors,
+        isValid,
+        resetForm
+    } = useFormAndValidation();
 
     const buttonText = useContext(FormsFetchingContext);
 
     useEffect(() => {
-        setName('');
-        setLink('');
-        setErrors({});
+        resetForm();
     }, [isOpen]);
 
-    function errorsChecker(el) {
-        if (el.validationMessage) {
-            setErrors({...errors, [el.name]: el.validationMessage })
-        } else if (errors[el.name]) {
-            setErrors(prevErrors => {
-                delete prevErrors[el.name];
-                return prevErrors;
-            });
-        }
-    }
-
-    function isEmptyErrors() {
-        for (let key in errors) {
-            return false;
-        }
-        return true;
-    }
-
-    function isInputsFilled() {
-        return (name && link);
-    }
-
     function setClassName(inputName) {
-        return `form__input ${errors[inputName] ? 'form__input_type_error' : ''} form__input_type_place-${inputName}`;
+        return `form__input ${errors[inputName] ? 'form__input_type_error' : ''} form__input_type_profile-${inputName}`;
     }
 
     function handleSubmit(e) {
         e.preventDefault();
-        onCardSubmit({name, link});
-    }
-
-    function handleNameChange(e) {
-        setName(e.target.value);
-        errorsChecker(e.target);
-    }
-
-    function handleLinkChange(e) {
-        setLink(e.target.value);
-        errorsChecker(e.target);
+        onCardSubmit({ name: values.name, link: values.link });
     }
 
     return (
@@ -71,12 +42,12 @@ function AddPlacePopup(props) {
             isOpen={isOpen}
             onClose={onClose}
             buttonText={buttonText.addPlace}
-            isButtonDisabled={!(isInputsFilled() && isEmptyErrors())}
+            isButtonDisabled={!isValid}
         >
             <fieldset className="form__field">
                 <input
-                    value={name}
-                    onChange={handleNameChange}
+                    value={values.name || ''}
+                    onChange={handleChange}
                     className={setClassName('name')}
                     type="text"
                     id="place-name-input"
@@ -86,10 +57,11 @@ function AddPlacePopup(props) {
                     minLength="2"
                     maxLength="30"
                 />
-                <span className="form__input-error form__input-error_active">{errors.name}</span>
+
+                {<span className="form__input-error form__input-error_active">{errors.name}</span>}
                 <input
-                    value={link}
-                    onChange={handleLinkChange}
+                    value={values.link || ''}
+                    onChange={handleChange}
                     className={setClassName('link')}
                     type="url"
                     id="place-url-input"
