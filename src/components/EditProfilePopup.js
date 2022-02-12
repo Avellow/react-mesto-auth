@@ -1,7 +1,8 @@
 import PopupWithForm from "./PopupWithForm";
-import {useContext, useEffect, useState} from "react";
+import {useContext, useEffect} from "react";
 import {CurrentUserContext} from "../contexts/CurrentUserContext";
 import {FormsFetchingContext} from "../contexts/FormsFetchingContext";
+import {useFormAndValidation} from "../hooks/useFormAndValidation";
 
 function EditProfilePopup(props) {
 
@@ -11,57 +12,32 @@ function EditProfilePopup(props) {
         onUpdateUser
     } = props;
 
-    const [name, setName] = useState('Name');
-    const [description, setDescription] = useState('About');
-    const [errors, setErrors] = useState({});
+    const {
+        values,
+        handleChange,
+        setValues,
+        errors,
+        isValid,
+        resetForm
+    } = useFormAndValidation();
 
     const currentUser = useContext(CurrentUserContext);
     const buttonText = useContext(FormsFetchingContext);
 
     useEffect(() => {
-        setName(currentUser.name);
-        setDescription(currentUser.about);
-        setErrors({});
+        resetForm();
+        setValues({ username: currentUser.name, job: currentUser.about });
     }, [currentUser, isOpen]);
-
-    function isEmptyErrors() {
-        for (let key in errors) {
-            return false;
-        }
-        return true;
-    }
 
     function setClassName(inputName) {
         return `form__input ${errors[inputName] ? 'form__input_type_error' : ''} form__input_type_profile-${inputName}`;
     }
 
-    //обновляет ошибки на каждом вводе, если ошибки нет, а поле существует - удаляет его
-    function errorsChecker(el) {
-        if (el.validationMessage) {
-            setErrors({...errors, [el.name]: el.validationMessage })
-        } else if (errors[el.name]) {
-            setErrors(prevErrors => {
-                delete prevErrors[el.name];
-                return prevErrors;
-            })
-        }
-    }
-
-    function handleNameChange(e) {
-        setName(e.target.value);
-        errorsChecker(e.target);
-    }
-
-    function handleDescriptionChange(e) {
-        setDescription(e.target.value);
-        errorsChecker(e.target);
-    }
-
     function handleSubmit(e) {
         e.preventDefault();
         onUpdateUser({
-            name,
-            about: description,
+            name: values.username,
+            about: values.job
         });
     }
 
@@ -73,12 +49,12 @@ function EditProfilePopup(props) {
             isOpen={isOpen}
             onClose={onClose}
             buttonText={buttonText.editProfile}
-            isButtonDisabled={!isEmptyErrors()}
+            isButtonDisabled={!isValid}
         >
             <fieldset className="form__field">
                 <input
-                    value={name || ''}
-                    onChange={handleNameChange}
+                    value={values.username || ''}
+                    onChange={handleChange}
                     className={setClassName('username')}
                     type="text"
                     id="profile-name-input"
@@ -90,8 +66,8 @@ function EditProfilePopup(props) {
                 />
                 <span className="form__input-error form__input-error_active">{errors.username}</span>
                 <input
-                    value={description || ''} // --//--
-                    onChange={handleDescriptionChange}
+                    value={values.job || ''}
+                    onChange={handleChange}
                     className={setClassName('job')}
                     type="text"
                     id="profile-job-input"
