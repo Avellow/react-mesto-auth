@@ -1,26 +1,33 @@
 import {useEffect, useRef} from "react";
+import Popup from "./Popup";
 
 function ImagePopup(props) {
 
     const {
+        name,
         card,
         isOpen,
         onClose
     } = props;
 
-    const popupRef = useRef();
-
-    useEffect(() => {
-        popupRef.current.focus();
-    }, [popupRef, isOpen]);
-
-    function handleEscDown(evt) {
-        if (evt.key === 'Escape') {
-            onClose();
-        }
-    }
-
     return (
+        <Popup
+            isOpen={isOpen}
+            onCLose={onClose}
+            name={name}
+        >
+            <figure className="popup__figure">
+                <img
+                    className="popup__img"
+                    src={card.link}
+                    alt={card.name}
+                />
+                <figcaption className="popup__img-subtitle">{card.name}</figcaption>
+            </figure>
+        </Popup>
+    )
+
+    /*return (
         <div
             ref={popupRef}
             className={`popup img-popup ${isOpen ? 'popup_opened' : ''}`}
@@ -44,7 +51,7 @@ function ImagePopup(props) {
                 />
             </div>
         </div>
-    )
+    )*/
 }
 
 export default ImagePopup;

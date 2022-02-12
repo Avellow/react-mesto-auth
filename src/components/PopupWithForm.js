@@ -1,4 +1,5 @@
 import {useEffect, useRef} from "react";
+import Popup from "./Popup";
 
 function PopupWithForm(prop) {
 
@@ -13,50 +14,29 @@ function PopupWithForm(prop) {
         buttonText
     } = prop;
 
-    const popupRef = useRef();
-
-    useEffect(() => {
-            popupRef.current.focus();
-    }, [popupRef, isOpen]);
-
-    function handleEscDown(evt) {
-        if (evt.key === 'Escape') {
-            onClose();
-        }
-    }
-
     return (
-        <div
-            ref={popupRef}
-            className={`popup popup_type_${name} ${isOpen ? 'popup_opened' : ''}`}
-            tabIndex="-1"
-            onKeyDown={handleEscDown}
+        <Popup
+            isOpen={isOpen}
+            onCLose={onClose}
+            name={name}
         >
-            <div className="popup__form-container">
-                <form
-                    onSubmit={onSubmit}
-                    className={`form ${name}-form`}
-                    name={`${name}-form`}
-                    noValidate
-                >
-                    <h2 className="form__title">{title}</h2>
-                    {children}
-                    <button
-                        className="form__submit"
-                        type="submit"
-                        disabled={isButtonDisabled}
-                    >
-                        {buttonText}
-                    </button>
-                </form>
+            <form
+                onSubmit={onSubmit}
+                className={`form ${name}-form`}
+                name={`${name}-form`}
+                noValidate
+            >
+                <h2 className="form__title">{title}</h2>
+                {children}
                 <button
-                    className="popup__close-button"
-                    type="button"
-                    aria-label="close"
-                    onClick={onClose}
-                />
-            </div>
-        </div>
+                    className="form__submit"
+                    type="submit"
+                    disabled={isButtonDisabled}
+                >
+                    {buttonText}
+                </button>
+            </form>
+        </Popup>
     )
 }
 

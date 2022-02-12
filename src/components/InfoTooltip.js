@@ -1,5 +1,6 @@
 import successLogo from './../images/sign-up-status/icon_success.png';
 import failedLogo from './../images/sign-up-status/icon_failed.png';
+import Popup from "./Popup";
 
 function InfoTooltip(props) {
 
@@ -14,18 +15,16 @@ function InfoTooltip(props) {
     const icon = success ? successLogo : failedLogo;
 
     return (
-        <div className={`popup popup_type_${name} ${isOpen ? 'popup_opened' : ''}`}>
+        <Popup
+            isOpen={isOpen}
+            onCLose={onClose}
+            name={name}
+        >
             <div className='sign-up-status'>
                 <div className='sign-up-status__icon' style={{backgroundImage: `url(${icon})`}}/>
                 <p className='sign-up-status__subtitle'>{text}</p>
-                <button
-                    className="popup__close-button"
-                    type="button"
-                    aria-label="close"
-                    onClick={onClose}
-                />
             </div>
-        </div>
+        </Popup>
     )
 }
 

@@ -6,6 +6,7 @@ function ConfirmPopup(props) {
 
     const {
         isOpen,
+        name,
         onClose,
         onCardDelete,
         card
@@ -20,6 +21,7 @@ function ConfirmPopup(props) {
 
     return (
         <PopupWithForm
+            name={name}
             title={'Вы уверены?'}
             isOpen={isOpen}
             onClose={onClose}

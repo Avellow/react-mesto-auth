@@ -256,6 +256,7 @@ function App() {
                         onClose={closeAllPopups}
                         onCardDelete={handleDeleteCard}
                         card={selectedCard}
+                        name='confirm'
                     />
                 </FormsFetchingContext.Provider>
 
@@ -263,6 +264,7 @@ function App() {
                     card={selectedCard}
                     isOpen={isOpenedImagePopup}
                     onClose={closeAllPopups}
+                    name='image'
                 />
 
                 <InfoTooltip
