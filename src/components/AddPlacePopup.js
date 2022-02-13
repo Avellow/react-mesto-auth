@@ -2,6 +2,7 @@ import PopupWithForm from "./PopupWithForm";
 import {useContext, useEffect} from "react";
 import {FormsFetchingContext} from "../contexts/FormsFetchingContext";
 import {useFormAndValidation} from "../hooks/useFormAndValidation";
+import Input from "./Input";
 
 function AddPlacePopup(props) {
 
@@ -25,10 +26,6 @@ function AddPlacePopup(props) {
         resetForm();
     }, [isOpen]);
 
-    function setClassName(inputName) {
-        return `form__input ${errors[inputName] ? 'form__input_type_error' : ''} form__input_type_profile-${inputName}`;
-    }
-
     function handleSubmit(e) {
         e.preventDefault();
         onCardSubmit({ name: values.name, link: values.link });
@@ -42,35 +39,28 @@ function AddPlacePopup(props) {
             isOpen={isOpen}
             onClose={onClose}
             buttonText={buttonText.addPlace}
-            isButtonDisabled={!isValid}
+            isValid={isValid}
         >
-            <fieldset className="form__field">
-                <input
-                    value={values.name || ''}
-                    onChange={handleChange}
-                    className={setClassName('name')}
-                    type="text"
-                    id="place-name-input"
-                    name="name"
-                    placeholder="Название"
-                    required
-                    minLength="2"
-                    maxLength="30"
-                />
-
-                {<span className="form__input-error form__input-error_active">{errors.name}</span>}
-                <input
-                    value={values.link || ''}
-                    onChange={handleChange}
-                    className={setClassName('link')}
-                    type="url"
-                    id="place-url-input"
-                    name="link"
-                    placeholder="Ссылка на картинку"
-                    required
-                />
-                <span className="form__input-error form__input-error_active">{errors.link}</span>
-            </fieldset>
+            <Input
+                values={values}
+                type="text"
+                name="place-name"
+                onChange={handleChange}
+                placeHolder="Название"
+                required={true}
+                errors={errors}
+                minLength="2"
+                maxLength="30"
+            />
+            <Input
+                values={values}
+                type="url"
+                name="place-link"
+                onChange={handleChange}
+                placeHolder="Ссылка на картинку"
+                required={true}
+                errors={errors}
+            />
         </PopupWithForm>
     )
 }
