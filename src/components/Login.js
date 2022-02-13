@@ -1,50 +1,52 @@
 import {useState} from "react";
+import Form from "./Form";
+import Input from "./Input";
+import {useFormAndValidation} from "../hooks/useFormAndValidation";
 
 function Login(props) {
 
     const { onSubmit } = props;
 
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const {
+        values,
+        handleChange
+    } = useFormAndValidation();
 
-    function handleEmailChange(e) {
-        setEmail(e.target.value);
-    }
-
-    function handlePasswordChange(e) {
-        setPassword(e.target.value);
-    }
+    const SIGN_IN_EMAIL = 'sign-in-email';
+    const SIGN_IN_PASSWORD = 'sign-in-password';
 
     function handleSubmit(e) {
         e.preventDefault();
-        onSubmit(email, password);
+        onSubmit(values[SIGN_IN_EMAIL], values[SIGN_IN_PASSWORD]);
     }
 
     return (
-        <form className="sign-form" onSubmit={handleSubmit}>
-            <h2 className="sign-form__title">Вход</h2>
-            <input
-                className="sign-form__input"
-                type="email"
-                name="sign-in-email"
-                placeholder="Email"
-                onChange={handleEmailChange}
-                value={email}
-                required
+        <Form
+            onSubmit={handleSubmit}
+            name='sign'
+            title='Вход'
+            isValid={true}
+            buttonText='Войти'
+        >
+            <Input
+                values={values}
+                onChange={handleChange}
+                name={SIGN_IN_EMAIL}
+                type='email'
+                placeHolder='Email'
+                required={true}
+                formName='sign-form'
             />
-            <input
-                className="sign-form__input"
+            <Input
+                values={values}
+                onChange={handleChange}
+                name={SIGN_IN_PASSWORD}
                 type='password'
-                name="sign-in-password"
-                placeholder="Пароль"
-                onChange={handlePasswordChange}
-                value={password}
-                required
-                minLength="4"
-                maxLength="20"
+                placeHolder='Пароль'
+                required={true}
+                formName='sign-form'
             />
-            <button className="sign-form__submit" type="submit">Войти</button>
-        </form>
+        </Form>
     )
 }
 

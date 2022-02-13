@@ -37,13 +37,6 @@
 @import url(./blocks/place/__like-button/_active/place__like-button_active.css);
 @import url(./blocks/place/__like-counter/place__like-counter.css);
 
-@import url(./blocks/sign-form/sign-form.css);
-@import url(./blocks/sign-form/__input/sign-form__input.css);
-@import url(./blocks/sign-form/__submit/sign-form__submit.css);
-@import url(./blocks/sign-form/__subtitle/sign-form__subtitle.css);
-@import url(./blocks/sign-form/__title/sign-form__title.css);
-@import url(./blocks/sign-form/__link/sign-form__link.css);
-
 @import url(./blocks/footer/footer.css);
 @import url(./blocks/footer/__author/footer__author.css);
 
@@ -69,6 +62,13 @@
 @import url(./blocks/form/__input-error/__input-error_active/form__input-error_active.css);
 @import url(./blocks/form/__submit/_inactive/form__submit_inactive.css);
 @import url(./blocks/form/__text/form__text.css);
+
+@import url(./blocks/sign-form/sign-form.css);
+@import url(./blocks/sign-form/__input/sign-form__input.css);
+@import url(./blocks/sign-form/__submit/sign-form__submit.css);
+@import url(./blocks/sign-form/__subtitle/sign-form__subtitle.css);
+@import url(./blocks/sign-form/__title/sign-form__title.css);
+@import url(./blocks/sign-form/__link/sign-form__link.css);
 
 @import url(./blocks/sign-up-status/sign-up-status.css);
 @import url(./blocks/sign-up-status/__icon/sign-up-status__icon.css);

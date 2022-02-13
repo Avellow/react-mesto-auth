@@ -18,10 +18,10 @@ const Form = (props) => {
             name={`${name}-form`}
             noValidate
         >
-            <h2 className="form__title">{ title }</h2>
+            <h2 className={`${name === 'sign' ? 'sign-form__title' : 'form__title'}`}>{ title }</h2>
             { children }
             <button
-                className="form__submit"
+                className={`${name === 'sign' ? 'sign-form__submit' : 'form__submit'}`}
                 type="submit"
                 disabled={!isValid}
             >

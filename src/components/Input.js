@@ -10,7 +10,8 @@ const Input = (props) => {
         required,
         errors = {},
         minLength,
-        maxLength
+        maxLength,
+        formName = 'form'
     } = props;
 
     return (
@@ -18,7 +19,7 @@ const Input = (props) => {
             <input
                 value={values[name] || ''}
                 onChange={onChange}
-                className={`form__input ${errors[name] ? 'form__input_type_error' : ''}`}
+                className={`${formName}__input ${errors[name] ? 'form__input_type_error' : ''}`}
                 type={type}
                 name={name}
                 placeholder={placeHolder}

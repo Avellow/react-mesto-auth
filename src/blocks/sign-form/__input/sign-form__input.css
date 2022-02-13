@@ -1,12 +1,13 @@
 .sign-form__input {
     margin-bottom: 28px;
-    background-color: #000000;
+    background-color: inherit;
     border: 0;
     border-bottom: 2px solid #CCC;
     padding-bottom: 10px;
     font-size: 14px;
     line-height: 1.21;
     color: #FFF;
+    width: 100%;
 }
 
 .sign-form__input::placeholder {
