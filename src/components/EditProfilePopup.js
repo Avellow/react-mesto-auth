@@ -16,7 +16,6 @@ function EditProfilePopup(props) {
     const {
         values,
         handleChange,
-        setValues,
         errors,
         isValid,
         resetForm
@@ -26,9 +25,8 @@ function EditProfilePopup(props) {
     const buttonText = useContext(FormsFetchingContext);
 
     useEffect(() => {
-        resetForm();
-        setValues({ username: currentUser.name, job: currentUser.about });
-    }, [currentUser, isOpen]);
+        resetForm({ username: currentUser.name, job: currentUser.about }, {}, true);
+    }, [currentUser, isOpen, resetForm]);
 
 
     function handleSubmit(e) {
