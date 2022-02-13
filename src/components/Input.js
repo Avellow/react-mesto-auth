@@ -1,5 +1,3 @@
-
-
 const Input = (props) => {
     const {
         values,
