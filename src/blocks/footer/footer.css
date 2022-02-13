@@ -2,6 +2,9 @@
   width: 880px;
   margin: 0 auto;
   padding-bottom: 60px;
+  flex: 1 0 auto;
+  display: flex;
+  align-items: end;
 }
 
 @media screen and (max-width: 1024px) {

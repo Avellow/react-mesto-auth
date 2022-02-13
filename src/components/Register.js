@@ -1,55 +1,60 @@
 import {Link} from "react-router-dom";
 import {useState} from "react";
+import Form from "./Form";
+import Input from "./Input";
+import {useFormAndValidation} from "../hooks/useFormAndValidation";
 
 
 function Register(props) {
 
     const { onSubmit } = props;
 
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const {
+        values,
+        handleChange
+    } = useFormAndValidation();
 
-    function handleEmailChange(e) {
-        setEmail(e.target.value);
-    }
-
-    function handlePasswordChange(e) {
-        setPassword(e.target.value);
-    }
+    const SIGN_UP_EMAIL = 'sign-up-email';
+    const SIGN_UP_PASSWORD = 'sign-up-password';
 
     function handleSubmit(e) {
         e.preventDefault();
-        onSubmit(email, password);
+        onSubmit(values[SIGN_UP_EMAIL], values[SIGN_UP_PASSWORD]);
     }
 
     return (
-        <form className="sign-form" onSubmit={handleSubmit}>
-            <h2 className="sign-form__title">Регистрация</h2>
-            <input
-                className="sign-form__input"
-                type="email"
-                name="sign-in-email"
-                placeholder="Email"
-                onChange={handleEmailChange}
-                value={email}
-                required
-            />
-            <input
-                className="sign-form__input"
-                type='password'
-                name="sign-in-password"
-                placeholder="Пароль"
-                onChange={handlePasswordChange}
-                value={password}
-                required
-                minLength="4"
-                maxLength="20"
-            />
-            <button className="sign-form__submit" type='submit'>Зарегистрироваться</button>
+        <>
+            <Form
+                onSubmit={handleSubmit}
+                name='sign'
+                title='Регистрация'
+                isValid={true}
+                buttonText='Зарегистрироваться'
+            >
+                <Input
+                    values={values}
+                    onChange={handleChange}
+                    name={SIGN_UP_EMAIL}
+                    type='email'
+                    placeHolder='Email'
+                    required={true}
+                    formName='sign-form'
+                />
+                <Input
+                    values={values}
+                    onChange={handleChange}
+                    name={SIGN_UP_PASSWORD}
+                    type='password'
+                    placeHolder='Пароль'
+                    required={true}
+                    formName='sign-form'
+                />
+            </Form>
             <p className="sign-form__subtitle">Уже зарегистрированы?
                 <Link className="sign-form__link" to='/sign-in'> Войти</Link></p>
-        </form>
+        </>
     )
+
 }
 
 export default Register;
