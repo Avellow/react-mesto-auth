@@ -22,13 +22,16 @@ function AddPlacePopup(props) {
 
     const buttonText = useContext(FormsFetchingContext);
 
+    const PLACE_NAME = 'place-name';
+    const PLACE_LINK = 'place-link';
+
     useEffect(() => {
         resetForm();
     }, [isOpen]);
 
     function handleSubmit(e) {
         e.preventDefault();
-        onCardSubmit({ name: values.name, link: values.link });
+        onCardSubmit({ name: values[PLACE_NAME], link: values[PLACE_LINK] });
     }
 
     return (
@@ -44,7 +47,7 @@ function AddPlacePopup(props) {
             <Input
                 values={values}
                 type="text"
-                name="place-name"
+                name={PLACE_NAME}
                 onChange={handleChange}
                 placeHolder="Название"
                 required={true}
@@ -55,7 +58,7 @@ function AddPlacePopup(props) {
             <Input
                 values={values}
                 type="url"
-                name="place-link"
+                name={PLACE_LINK}
                 onChange={handleChange}
                 placeHolder="Ссылка на картинку"
                 required={true}
