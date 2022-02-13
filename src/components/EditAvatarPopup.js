@@ -25,7 +25,7 @@ function EditAvatarPopup(props) {
 
     useEffect(() => {
         resetForm();
-    }, [isOpen])
+    }, [isOpen, resetForm])
 
 
     function handleSubmit(e) {

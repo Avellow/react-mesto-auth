@@ -27,7 +27,7 @@ function AddPlacePopup(props) {
 
     useEffect(() => {
         resetForm();
-    }, [isOpen]);
+    }, [isOpen, resetForm]);
 
     function handleSubmit(e) {
         e.preventDefault();
