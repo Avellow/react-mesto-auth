@@ -98,9 +98,9 @@ function App() {
             .then(() => {
                 setCards(prevState => prevState.filter(c => c._id !== card._id));
                 closeAllPopups();
-                setIsFetching(false);
             })
-            .catch(err => console.log(`Ошибка ${err}, не удалось удалить карточку`));
+            .catch(err => console.log(`Ошибка ${err}, не удалось удалить карточку`))
+            .finally(() => setIsFetching(false));
     }
 
     function handleCardImageClick(card) {
@@ -120,9 +120,9 @@ function App() {
             .then(userData => {
                 setCurrentUser(prevUserInfo => ({...prevUserInfo, ...userData}));
                 closeAllPopups();
-                setIsFetching(false);
             })
-            .catch(err => console.log(`Ошибка ${err}, не удалось обновить профиль`));
+            .catch(err => console.log(`Ошибка ${err}, не удалось обновить профиль`))
+            .finally(() => setIsFetching(false));
     }
 
     function handleUpdateAvatar({ avatar }) {
@@ -131,10 +131,9 @@ function App() {
             .then(userData => {
                 setCurrentUser(prevUserInfo => ({...prevUserInfo, ...userData}));
                 closeAllPopups();
-                setIsFetching(false);
             })
-            .catch(err => console.log(`Ошибка ${err}, не удалось обновить аватар`));
-
+            .catch(err => console.log(`Ошибка ${err}, не удалось обновить аватар`))
+            .finally(() => setIsFetching(false));
     }
 
     function handleAddPlaceSubmit(card) {
@@ -143,9 +142,9 @@ function App() {
             .then(newCard => {
                 setCards([newCard, ...cards]);
                 closeAllPopups();
-                setIsFetching(false);
             })
-            .catch(err => console.log(`Ошибка ${err}, не удалось добавить карточку`));
+            .catch(err => console.log(`Ошибка ${err}, не удалось добавить карточку`))
+            .finally(() => setIsFetching(false));
     }
 
     function handleEditAvatarClick() {
