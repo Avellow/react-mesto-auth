@@ -20,7 +20,6 @@ const Input = (props) => {
                 onChange={onChange}
                 className={`form__input ${errors[name] ? 'form__input_type_error' : ''}`}
                 type={type}
-                id="place-url-input"
                 name={name}
                 placeholder={placeHolder}
                 required={required}
