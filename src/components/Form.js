@@ -11,14 +11,9 @@ const Form = (props) => {
 
     } = props;
 
-    function handleSubmit(e) {
-        e.preventDefault();
-        onSubmit();
-    }
-
     return (
         <form
-            onSubmit={handleSubmit}
+            onSubmit={onSubmit}
             className={`form ${name}-form`}
             name={`${name}-form`}
             noValidate
