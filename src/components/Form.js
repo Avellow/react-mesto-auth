@@ -1,5 +1,3 @@
-
-
 const Form = (props) => {
     const {
         onSubmit,

@@ -1,4 +1,3 @@
-import {useEffect, useRef} from "react";
 import Popup from "./Popup";
 
 function ImagePopup(props) {
