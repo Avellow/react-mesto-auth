@@ -2,6 +2,7 @@ import PopupWithForm from "./PopupWithForm";
 import {useContext, useEffect} from "react";
 import {FormsFetchingContext} from "../contexts/FormsFetchingContext";
 import {useFormAndValidation} from "../hooks/useFormAndValidation";
+import Input from "./Input";
 
 
 function EditAvatarPopup(props) {
@@ -26,9 +27,6 @@ function EditAvatarPopup(props) {
         resetForm();
     }, [isOpen])
 
-    function setClassName(inputName) {
-        return `form__input ${errors[inputName] ? 'form__input_type_error' : ''} form__input_type_avatar-${inputName}`;
-    }
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -45,19 +43,17 @@ function EditAvatarPopup(props) {
             isOpen={isOpen}
             onClose={onClose}
             buttonText={buttonText.updateAvatar}
-            isButtonDisabled={!isValid}
+            isValid={isValid}
         >
-            <input
-                value={values.avatar || ''}
+            <Input
+                values={values}
+                type='url'
+                name='avatar'
                 onChange={handleChange}
-                className={setClassName('url')}
-                type="url"
-                id="avatar-url-input"
-                name="avatar"
-                placeholder="Ссылка на аватар"
-                required
+                placeHolder='Ссылка на аватар'
+                required={true}
+                errors={errors}
             />
-            <span className="form__input-error form__input-error_active">{errors.avatar}</span>
         </PopupWithForm>
     )
 }
