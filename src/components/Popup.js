@@ -9,7 +9,7 @@ const Popup = (props) => {
     } = props;
 
     useEffect(() => {
-        if (isOpen) return;
+        if (!isOpen) return;
 
         const closeByEsc = (e) => {
             if (e.key === 'Escape') {
