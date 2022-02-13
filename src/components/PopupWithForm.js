@@ -1,5 +1,6 @@
 import {useEffect, useRef} from "react";
 import Popup from "./Popup";
+import Form from "./Form";
 
 function PopupWithForm(prop) {
 
@@ -10,7 +11,7 @@ function PopupWithForm(prop) {
         onSubmit,
         title,
         children,
-        isButtonDisabled,
+        isValid,
         buttonText
     } = prop;
 
@@ -20,22 +21,15 @@ function PopupWithForm(prop) {
             onCLose={onClose}
             name={name}
         >
-            <form
+            <Form
                 onSubmit={onSubmit}
-                className={`form ${name}-form`}
-                name={`${name}-form`}
-                noValidate
+                name={name}
+                isValid={isValid}
+                buttonText={buttonText}
+                title={title}
             >
-                <h2 className="form__title">{title}</h2>
-                {children}
-                <button
-                    className="form__submit"
-                    type="submit"
-                    disabled={isButtonDisabled}
-                >
-                    {buttonText}
-                </button>
-            </form>
+                { children }
+            </Form>
         </Popup>
     )
 }

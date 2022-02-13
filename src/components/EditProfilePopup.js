@@ -49,36 +49,34 @@ function EditProfilePopup(props) {
             isOpen={isOpen}
             onClose={onClose}
             buttonText={buttonText.editProfile}
-            isButtonDisabled={!isValid}
+            isValid={isValid}
         >
-            <fieldset className="form__field">
-                <input
-                    value={values.username || ''}
-                    onChange={handleChange}
-                    className={setClassName('username')}
-                    type="text"
-                    id="profile-name-input"
-                    name="username"
-                    placeholder="Имя"
-                    required
-                    minLength="2"
-                    maxLength="40"
-                />
-                <span className="form__input-error form__input-error_active">{errors.username}</span>
-                <input
-                    value={values.job || ''}
-                    onChange={handleChange}
-                    className={setClassName('job')}
-                    type="text"
-                    id="profile-job-input"
-                    name="job"
-                    placeholder="О себе"
-                    required
-                    minLength="2"
-                    maxLength="200"
-                />
-                <span className="form__input-error form__input-error_active">{errors.job}</span>
-            </fieldset>
+            <input
+                value={values.username || ''}
+                onChange={handleChange}
+                className={setClassName('username')}
+                type="text"
+                id="profile-name-input"
+                name="username"
+                placeholder="Имя"
+                required
+                minLength="2"
+                maxLength="40"
+            />
+            <span className="form__input-error form__input-error_active">{errors.username}</span>
+            <input
+                value={values.job || ''}
+                onChange={handleChange}
+                className={setClassName('job')}
+                type="text"
+                id="profile-job-input"
+                name="job"
+                placeholder="О себе"
+                required
+                minLength="2"
+                maxLength="200"
+            />
+            <span className="form__input-error form__input-error_active">{errors.job}</span>
         </PopupWithForm>
     )
 }
