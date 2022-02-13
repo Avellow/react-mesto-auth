@@ -27,6 +27,7 @@ function ConfirmPopup(props) {
             onClose={onClose}
             buttonText={buttonText.confirmAction}
             onSubmit={handleSubmit}
+            isValid={true}
         />
     )
 }
